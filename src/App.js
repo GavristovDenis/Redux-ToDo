@@ -1,37 +1,42 @@
-import { ToDoPlaceholder } from './components/ToDoPlaceholder';
-import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState } from "react"
+import { Inputs } from './components/Inputs';
+import { ToDoList } from './components/ToDoList';
+import { CalendarMain } from './components/CalendarMain';
+import * as dayjs from 'dayjs'
+import { AddToDoAction, DeleteToDoAction, FilterToDoAction } from './store/Actions';
+
 function App() {
     const dispatch = useDispatch()
-
-
     const ToDoArray = useSelector(state => state.ToDoArray.ToDoArray)
-    const AddToDo = (text) => {
-        const OneToDo = {
-            text,
-            id: Date.now(),
-            date: Date()
+    const AddToDoFunction = (text) => {
+        if (inputState.length === 0) {
+            return
         }
-        dispatch({ type: "AddToDo", payload: OneToDo })
+        else {
+            const OneToDo = {
+                text,
+                id: Date.now(),
+                date: dayjs(Date()).format('DD/MM/YYYY')
+            }
+            dispatch(AddToDoAction(OneToDo))
+        }
     }
-    const DeleteToDo = (i) => {
-        dispatch({ type: "DeleteToDo", payload: i.id })
+    const DeleteToDoFunction = (i) => {
+        dispatch(DeleteToDoAction(i.id))
     }
+    const FilterToDoFunction = () => {
+        dispatch(FilterToDoAction(fisrtCalendarState, secondCalendarState))
+    }
+
     const [inputState, setInputState] = useState("")
+    const [fisrtCalendarState, SetFirstCalendarState] = useState(dayjs(new Date()).format('DD/MM/YYYY'))
+    const [secondCalendarState, SetSecondCalendarState] = useState(dayjs(new Date()).format('DD/MM/YYYY'))
     return (
-        <div className="App">
-            <div className='input_section'>
-                <div><input type="text" onChange={e => setInputState(e.target.value)}></input></div>
-                <div><button onClick={() => AddToDo(inputState)}>Добавить задачу</button></div>
-            </div>
-            <div className='todo_list'>
-                {ToDoArray.length > 0 ?
-                    ToDoArray.map((task, index) =>
-                        <ToDoPlaceholder text={task.text} date={task.date} index={index} close={() => DeleteToDo(task)} />
-                    ) :
-                    <div>Все задачи выполнены</div>}
-            </div>
+        <div className="app">
+            <Inputs setInputState={setInputState} inputState={inputState} AddToDo={AddToDoFunction} />
+            <CalendarMain fisrtCalendarState={fisrtCalendarState} secondCalendarState={secondCalendarState} SetFirstCalendarState={(value) => SetFirstCalendarState(dayjs(value).format('DD/MM/YYYY'))} SetSecondCalendarState={(value) => SetSecondCalendarState(dayjs(value).format('DD/MM/YYYY'))} FilterToDo={() => FilterToDoFunction()} />
+            <ToDoList ToDoArray={ToDoArray} DeleteToDo={DeleteToDoFunction} />
         </div>
     );
 }

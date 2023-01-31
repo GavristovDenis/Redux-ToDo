@@ -1,5 +1,7 @@
 import { createStore, combineReducers } from "redux"
-import { ToDoReducer } from "./AddToDo"
+import { ToDoReducer } from "./Reducers"
+
+
 
 const RootReducer = combineReducers({
     ToDoArray: ToDoReducer
