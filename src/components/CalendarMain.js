@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { CalendarTitle } from './CalendarTitle'
 import { Calendars } from './Calendars'
-import { ButtonSection } from './ButtonSection'
+
 export const CalendarMain = ({
     fisrtCalendarState,
     SetFirstCalendarState,
@@ -41,7 +41,9 @@ export const CalendarMain = ({
                 showCalendar2={showCalendar2}
                 SetSecondCalendarState={SetSecondCalendarState}
             />
-            <ButtonSection FilterToDo={FilterToDo} />
+            <div className='button_section'>
+                <button onClick={FilterToDo}>Фильтр</button>
+            </div>
         </div>
     )
 }

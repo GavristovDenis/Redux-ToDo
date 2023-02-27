@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Calendar from 'react-calendar'
 
 export const SecondCalendar = ({ secondCalendarState, Calendar2Show, showCalendar2, SetSecondCalendarState }) => {
